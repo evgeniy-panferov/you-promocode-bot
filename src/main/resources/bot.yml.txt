@@ -1,0 +1,3 @@
+name: promocode-bot
+token:
+path:https://66cc3b71e0e6.ngrok.io
