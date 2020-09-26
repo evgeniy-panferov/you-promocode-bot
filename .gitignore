@@ -8,8 +8,12 @@
 /httpRequests/
 
 .idea
-/src/main/resources/bot.yml
+**/bot.yml
 out
 target
 *.iml
 log
+/src/example_json.json
+
+**/admitad.http
+**/admitad.yml

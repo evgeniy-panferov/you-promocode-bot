@@ -7,13 +7,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.youpromocodebot.service.TelegramView;
 
 @Component
 @Setter
 @Getter
-@PropertySource("classpath:bot.yml")
+@PropertySource("classpath:properties/bot.yml")
 public class YouPromocodeBot extends TelegramWebhookBot {
     @Value("${name}")
     private String name;
@@ -22,17 +22,15 @@ public class YouPromocodeBot extends TelegramWebhookBot {
     @Value("${path}")
     private String path;
 
+    TelegramView telegramView;
+
+    public YouPromocodeBot(TelegramView telegramView) {
+        this.telegramView = telegramView;
+    }
+
     @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
-
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(update.getMessage().getChatId().toString());
-            sendMessage.setText(update.getMessage().getText());
-            return sendMessage;
-        }
-
-        return null;
+        return telegramView.updateHandler(update);
     }
 
     @Override

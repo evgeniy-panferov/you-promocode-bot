@@ -10,11 +10,11 @@ import ru.youpromocodebot.YouPromocodeBot;
 @RestController
 @Slf4j
 @RequestMapping(value = "/")
-public class SimpleController {
+public class WebHookController {
 
     private final YouPromocodeBot youPromocodeBot;
 
-    public SimpleController(YouPromocodeBot youPromocodeBot) {
+    public WebHookController(YouPromocodeBot youPromocodeBot) {
         this.youPromocodeBot = youPromocodeBot;
     }
 

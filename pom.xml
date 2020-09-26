@@ -12,12 +12,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-<!--        <maven.compiler.target>1.8</maven.compiler.target>-->
-<!--        <maven.compiler.source>1.8</maven.compiler.source>-->
-
+        <java.version>14</java.version>
+        <!--        web-->
         <spring.version>5.2.9.RELEASE</spring.version>
+        <spring-data.version> 2.3.4.RELEASE</spring-data.version>
         <tomcat.version>9.0.36</tomcat.version>
+        <!--        hibernate-->
+        <hibernate.version>5.4.18.Final</hibernate.version>
+        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
+
     </properties>
 
     <build>
@@ -29,7 +32,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                <source>${java.version}</source>
+                    <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
@@ -52,19 +55,13 @@
         </plugins>
     </build>
 
-    <dependencies>
 
+    <dependencies>
+        <!--spring-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -79,12 +76,36 @@
             <version>${spring.version}</version>
         </dependency>
 
+<!--        DataBase-->
+
         <dependency>
-            <groupId>org.telegram</groupId>
-            <artifactId>telegrambots</artifactId>
-            <version>4.9.1</version>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.16</version>
+        </dependency>
+
+        <!--web-->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--logging-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -97,6 +118,28 @@
             <version>1.7.30</version>
         </dependency>
 
+
+        <!--orm-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+        <!--telegram-->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>4.9.1</version>
+        </dependency>
+
+        <!--other-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -104,12 +147,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>provided</scope>
-        </dependency>
 
     </dependencies>
 
