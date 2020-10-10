@@ -1,0 +1,16 @@
+package ru.youpromocodebot.model.dto.admitad;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import ru.youpromocodebot.model.Program;
+
+import java.util.List;
+
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Programs {
+
+    @JsonProperty(value = "results")
+    List<Program> programs;
+}

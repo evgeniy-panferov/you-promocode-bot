@@ -11,8 +11,8 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import ru.youpromocodebot.YouPromocodeBot;
 
-@Configuration
 @EnableWebMvc
+@Configuration
 @ComponentScan("ru.youpromocodebot")
 public class AppConfig implements WebMvcConfigurer {
 
@@ -31,7 +31,6 @@ public class AppConfig implements WebMvcConfigurer {
         }
         return telegramBotsApi;
     }
-
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();
