@@ -2,14 +2,13 @@ package ru.youpromocodebot.client;
 
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.youpromocodebot.service.AdmitadAuthorization;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,26 +17,20 @@ import java.util.List;
 @Data
 @Slf4j
 @Component
-@PropertySource("classpath:properties/admitad.yml")
-public class AdmitadConnectionApi {
+@RequiredArgsConstructor
+public class AdmitadConnection {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    private AdmitadAuthorization admitadAuthorization;
-
-    public AdmitadConnectionApi(RestTemplate restTemplate, AdmitadAuthorization admitadAuthorization) {
-        this.restTemplate = restTemplate;
-        this.admitadAuthorization = admitadAuthorization;
-    }
+    private final AdmitadAuthorization admitadAuthorization;
 
     public <T> T getEntity(String uri, HttpMethod httpMethod, Class<T> clazz) {
         log.info("AdmitadConnectionApi getEntity uri - {}, httpMethod - {}, clazz - {}", uri, httpMethod, clazz);
 
         ResponseEntity<T> response = restTemplate.exchange(uri,
                 httpMethod, getHttpEntity(), clazz);
-        T body = response.getBody();
 
-        return body;
+        return response.getBody();
     }
 
     public <T> T getEntity(String uri, HttpMethod httpMethod, Class<T> clazz,
@@ -96,7 +89,6 @@ public class AdmitadConnectionApi {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         httpHeaders.set("Authorization", "Bearer " + token);
-//        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         return httpHeaders;
     }
 

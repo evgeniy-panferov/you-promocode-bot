@@ -11,4 +11,12 @@ public abstract class BaseEntity {
     private Integer id;
     @JsonProperty
     private String name;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name == null ? "" : name;
+    }
 }

@@ -17,8 +17,4 @@ public class ProgramToUser {
 
     private String imageUrl;
 
-    @Override
-    public String toString() {
-        return "\n"+name;
-    }
 }

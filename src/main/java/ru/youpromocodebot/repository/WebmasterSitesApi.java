@@ -1,18 +1,20 @@
-package ru.youpromocodebot.service;
+package ru.youpromocodebot.repository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import ru.youpromocodebot.client.AdmitadConnectionApi;
+import ru.youpromocodebot.client.AdmitadConnection;
 import ru.youpromocodebot.model.Message;
 import ru.youpromocodebot.model.dto.admitad.Sites;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class WebmasterSitesApi {
 
-    private final AdmitadConnectionApi admitadConnectionApi;
+    private final AdmitadConnection admitadConnection;
 
     private static final String LIST_WEBMASTER_SITES = "https://api.admitad.com/websites/v2/";
 
@@ -24,13 +26,9 @@ public class WebmasterSitesApi {
 
     private static final String DELETE_WEBMASTER_SITE = "https://api.admitad.com/websites/v2/delete/{id}/";
 
-    public WebmasterSitesApi(AdmitadConnectionApi admitadConnectionApi) {
-        this.admitadConnectionApi = admitadConnectionApi;
-    }
-
     public Sites getWebmasterSites() {
         log.info("WebmasterSitesApi getWebmasterSites");
-        return admitadConnectionApi.getEntity(LIST_WEBMASTER_SITES, HttpMethod.GET, Sites.class);
+        return admitadConnection.getEntity(LIST_WEBMASTER_SITES, HttpMethod.GET, Sites.class);
     }
 
     public Sites createWebmasterSites(MultiValueMap<String, String> params) {

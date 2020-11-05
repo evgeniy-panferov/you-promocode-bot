@@ -1,9 +1,9 @@
-package ru.youpromocodebot.service;
+package ru.youpromocodebot.client;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,27 +12,24 @@ import org.springframework.web.client.RestTemplate;
 import ru.youpromocodebot.model.AdmitadAuth;
 
 import java.util.Collections;
+import java.util.Objects;
 
 @Data
 @Slf4j
 @Component
-@PropertySource("classpath:properties/admitad.yml")
+@RequiredArgsConstructor
 public class AdmitadAuthorization {
 
-    @Value("${base64_header}")
+    @Value("${base64Header}")
     private String base64Header;
 
-    @Value("${client_id}")
+    @Value("${clientId}")
     private String clientId;
 
     @Value("${scope}")
     private String scope;
 
-    private RestTemplate restTemplate;
-
-    public AdmitadAuthorization(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private final RestTemplate restTemplate;
 
     private static final String AUTHORIZATION_URL = "https://api.admitad.com/token/";
 
@@ -47,7 +44,7 @@ public class AdmitadAuthorization {
         ResponseEntity<AdmitadAuth> response = restTemplate.exchange(AUTHORIZATION_URL,
                 HttpMethod.POST, new HttpEntity<>(map, getHttpHeaders()), AdmitadAuth.class);
 
-        return response.getBody().getAccessToken();
+        return Objects.requireNonNull(response.getBody()).getAccessToken();
     }
 
     private HttpHeaders getHttpHeaders() {

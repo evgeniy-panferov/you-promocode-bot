@@ -1,22 +1,20 @@
 package ru.youpromocodebot.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.youpromocodebot.YouPromocodeBot;
+import ru.youpromocodebot.api.YouPromocodeBot;
 
 @RestController
 @Slf4j
 @RequestMapping(value = "/")
+@RequiredArgsConstructor
 public class WebHookController {
 
     private final YouPromocodeBot youPromocodeBot;
-
-    public WebHookController(YouPromocodeBot youPromocodeBot) {
-        this.youPromocodeBot = youPromocodeBot;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)

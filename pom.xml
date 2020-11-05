@@ -15,7 +15,7 @@
         <java.version>14</java.version>
         <!--        web-->
         <spring.version>5.2.9.RELEASE</spring.version>
-        <spring-data.version> 2.3.4.RELEASE</spring-data.version>
+        <spring-data.version>2.3.4.RELEASE</spring-data.version>
         <tomcat.version>9.0.36</tomcat.version>
         <!--        hibernate-->
         <hibernate.version>5.4.18.Final</hibernate.version>
@@ -76,7 +76,7 @@
             <version>${spring.version}</version>
         </dependency>
 
-<!--        DataBase-->
+        <!--        DataBase-->
 
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -147,6 +147,22 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-parameter-names</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.11.2</version>
+        </dependency>
 
     </dependencies>
 

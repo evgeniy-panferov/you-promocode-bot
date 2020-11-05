@@ -1,6 +1,7 @@
-package ru.youpromocodebot;
+package ru.youpromocodebot.api;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,16 +10,16 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.youpromocodebot.view.TelegramView;
 
-
+@Slf4j
 @Setter
 @Getter
 @Component
+@RequiredArgsConstructor
 @PropertySource("classpath:properties/bot.yml")
-@Slf4j
 public class YouPromocodeBot extends TelegramWebhookBot {
     @Value("${name}")
     private String name;
@@ -27,26 +28,28 @@ public class YouPromocodeBot extends TelegramWebhookBot {
     @Value("${path}")
     private String path;
 
-    private TelegramView telegramView;
-
-    public YouPromocodeBot(TelegramView telegramView) {
-        this.telegramView = telegramView;
-    }
+    private final TelegramView telegramView;
 
     @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
         return telegramView.updateHandler(update);
     }
 
-    public void sendMessage(long chatId, String text) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(text);
-
+    public void sendMessage(SendMessage sendMessage) {
+        log.info("YouPromocodeBot sendMessage, sendMessage-{}", sendMessage);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("Message can't send a message" );
+            log.error("Message can't send");
+        }
+    }
+
+    public void sendPhoto(SendPhoto sendPhoto) {
+        log.info("YouPromocodeBot sendPhoto, sendPhoto-{}", sendPhoto);
+        try {
+            execute(sendPhoto);
+        } catch (TelegramApiException e) {
+            log.error("Message can't send");
         }
     }
 
