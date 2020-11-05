@@ -10,7 +10,6 @@ import ru.youpromocodebot.model.dto.user.ProgramToUser;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class EntityToDto {
 
     public static List<ProgramToUser> convertProgramToDto(Programs programs) {
