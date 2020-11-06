@@ -46,4 +46,13 @@ public class MessagesGenerator {
         sendMessage.setReplyMarkup(KeyboardsUtil.getInlineKeyboard(buttons));
         return sendMessage;
     }
+
+    public SendPhoto createPhotoMessageToUserWithInlineKeyboard(Long chatId, String message, Map<String, String> buttons, String imageUrl) {
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(chatId);
+        sendPhoto.setPhoto(imageUrl);
+        sendPhoto.setCaption(message);
+        sendPhoto.setReplyMarkup(KeyboardsUtil.getInlineKeyboard(buttons));
+        return sendPhoto;
+    }
 }

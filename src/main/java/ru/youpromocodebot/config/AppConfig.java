@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,7 +22,10 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import ru.youpromocodebot.api.YouPromocodeBot;
 
+import java.util.concurrent.TimeUnit;
+
 @EnableWebMvc
+@EnableCaching
 @Configuration
 @ComponentScan("ru.youpromocodebot")
 @PropertySource("classpath:properties/admitad.yml")
@@ -60,5 +67,15 @@ public class AppConfig implements WebMvcConfigurer {
                 .registerModule(new Jdk8Module())
                 .registerModule(new JavaTimeModule());
         return objectMapper;
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        Caffeine<Object, Object> caffeineCache = Caffeine.newBuilder()
+                .expireAfterWrite(12, TimeUnit.HOURS)
+                .maximumSize(200);
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+        cacheManager.setCaffeine(caffeineCache);
+        return cacheManager;
     }
 }

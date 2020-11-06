@@ -2,7 +2,7 @@ package ru.youpromocodebot.repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -13,6 +13,7 @@ import ru.youpromocodebot.model.dto.admitad.Programs;
 import ru.youpromocodebot.model.dto.user.ProgramToUser;
 import ru.youpromocodebot.util.EntityToDto;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -26,12 +27,8 @@ public class PartnershipsProgramsApi {
 
     private final AdmitadConnection admitadConnection;
 
-    @Value("${websiteId}")
-    private String websiteId;
-    @Value("${limit}")
-    private String limit;
-
     private static final String LIST_PARTNERSHIPS_PROGRAMS_URL = "https://api.admitad.com/advcampaigns/";
+    private static final String LIST_PARTNERSHIPS_PROGRAMS_URL_FOR_WEBSITE_ID = "https://api.admitad.com/advcampaigns/website/{0}/";
 
     public Programs getPartnershipsPrograms() {
         log.info("PartnershipsProgramsApi getPartnershipsPrograms");
@@ -39,12 +36,13 @@ public class PartnershipsProgramsApi {
                 Programs.class);
     }
 
-    public List<ProgramToUser> getProgramsFromSites() {
-        log.info("PartnershipsProgramsApi getPartnershipsPrograms id - {}", websiteId);
+    @Cacheable(value = "programsToUser", key = "#websiteId")
+    public List<ProgramToUser> getProgramsFromSites(String websiteId, String limit) {
+        log.info("PartnershipsProgramsApi getProgramsFromSites id - {}", websiteId);
+        String url = MessageFormat.format(LIST_PARTNERSHIPS_PROGRAMS_URL_FOR_WEBSITE_ID, websiteId);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("website", websiteId);
         map.add("limit", limit);
-        return EntityToDto.convertProgramToDto(admitadConnection.getEntity(LIST_PARTNERSHIPS_PROGRAMS_URL, HttpMethod.GET,
+        return EntityToDto.convertProgramToDto(admitadConnection.getEntity(url, HttpMethod.GET,
                 Programs.class, map));
     }
 
@@ -66,5 +64,4 @@ public class PartnershipsProgramsApi {
         return admitadConnection.getEntity(LIST_PARTNERSHIPS_PROGRAMS_URL, HttpMethod.GET, Message.class,
                 args);
     }
-
 }

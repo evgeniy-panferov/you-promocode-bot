@@ -32,12 +32,12 @@ public class CouponsService {
     }
 
     public List<CouponToUser> getCouponsForPartnershipsProgram(String id) {
-        log.info("CouponsService getCouponsForPartnershipsProgram");
+        log.info("CouponsService getCouponsForPartnershipsProgram id - {}", id);
         return couponsApi.getCouponsForPartnerShipsProgram(id);
     }
 
     public CouponToUser getCouponForIdForWebsite(String id) {
-        log.info("CouponsService getCouponForId");
+        log.info("CouponsService getCouponForId id-{}", id);
         return couponsApi.getCouponForId(id);
     }
 }

@@ -2,6 +2,7 @@ package ru.youpromocodebot.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.youpromocodebot.model.Message;
 import ru.youpromocodebot.model.dto.admitad.Programs;
@@ -21,6 +22,11 @@ public class PartnershipsProgramsService {
 
     private final PartnershipsProgramsApi partnershipsProgramsApi;
 
+    @Value("${websiteId}")
+    private String websiteId;
+    @Value("${limit}")
+    private String limit;
+
     public Programs getPartnershipsPrograms() {
         log.info("PartnershipsProgramsService getPartnershipsPrograms");
         return partnershipsProgramsApi.getPartnershipsPrograms();
@@ -28,9 +34,8 @@ public class PartnershipsProgramsService {
 
     public List<ProgramToUser> getProgramsFromSites() {
         log.info("PartnershipsProgramsService getPartnershipsPrograms id");
-        return partnershipsProgramsApi.getProgramsFromSites();
+        return partnershipsProgramsApi.getProgramsFromSites(websiteId,limit);
     }
-
 
     public Message addSitesFromPrograms(String cId, String wId) {
         log.info("PartnershipsProgramsService addSitesFromPrograms cId - {}, wId - {}", cId, wId);
@@ -46,6 +51,4 @@ public class PartnershipsProgramsService {
         log.info("PartnershipsProgramsService removeSitesFromPrograms args - {}", args);
         return partnershipsProgramsApi.anyUrnFromPrograms(args);
     }
-
-
 }

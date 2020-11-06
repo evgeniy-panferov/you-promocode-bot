@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import ru.youpromocodebot.api.MessageService;
 import ru.youpromocodebot.api.YouPromocodeBot;
 import ru.youpromocodebot.api.command.MainCommand;
@@ -36,14 +37,16 @@ public class PartnershipsProgramCommandHandler implements CommandHandler {
 
         if (command.equalsIgnoreCase(MainCommand.PARTNERSHIPS_LIST.getCommand())) {
             partnershipsProgramsService.getProgramsFromSites()
+                    .stream()
+                    .filter(programToUser -> programToUser.getConnectionStatus().equalsIgnoreCase("active"))
                     .forEach(programToUser -> {
                         String button = messageService.getMessage("reply.button.actionList");
-                        SendMessage messageToUser = messagesGenerator.createMessageToUserWithInlineKeyboard(
+                        SendPhoto photoMessageToUser = messagesGenerator.createPhotoMessageToUserWithInlineKeyboard(
                                 chatId, programToUser.getName(),
-                                Collections.singletonMap(button + "|" + programToUser.getId(), button));
-                        youPromocodeBot.sendMessage(messageToUser);
+                                Collections.singletonMap(button + "|" + programToUser.getId(), button), programToUser.getImageUrl());
+                        youPromocodeBot.sendPhoto(photoMessageToUser);
                     });
-            return new SendMessage(chatId, messageService.getMessage("reply.main.loaded"));
+            return new SendMessage(chatId, messageService.getMessage("reply.partnerships.loaded"));
         }
         return null;
     }

@@ -17,4 +17,6 @@ public class ProgramToUser {
 
     private String imageUrl;
 
+    private String connectionStatus;
+
 }

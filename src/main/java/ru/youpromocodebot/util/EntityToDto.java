@@ -1,6 +1,5 @@
 package ru.youpromocodebot.util;
 
-import org.springframework.stereotype.Component;
 import ru.youpromocodebot.model.Coupon;
 import ru.youpromocodebot.model.dto.admitad.Coupons;
 import ru.youpromocodebot.model.dto.admitad.Programs;
@@ -13,13 +12,15 @@ import java.util.stream.Collectors;
 public class EntityToDto {
 
     public static List<ProgramToUser> convertProgramToDto(Programs programs) {
-        return programs.getPrograms().stream().map(program -> {
-            ProgramToUser programToUser = new ProgramToUser();
-            programToUser.setId(program.getId());
-            programToUser.setName(program.getName());
-            programToUser.setImageUrl(program.getImageUrl());
-            return programToUser;
-        }).collect(Collectors.toList());
+        return programs.getPrograms().stream()
+                .map(program -> {
+                    ProgramToUser programToUser = new ProgramToUser();
+                    programToUser.setId(program.getId());
+                    programToUser.setName(program.getName());
+                    programToUser.setImageUrl(program.getImageUrl());
+                    programToUser.setConnectionStatus(program.getConnectionStatus());
+                    return programToUser;
+                }).collect(Collectors.toList());
     }
 
     public static List<CouponToUser> convertCouponToDto(Coupons coupons) {
@@ -40,7 +41,7 @@ public class EntityToDto {
         }).collect(Collectors.toList());
     }
 
-    public static CouponToUser convertCouponToUser(Coupon coupon){
+    public static CouponToUser convertCouponToUser(Coupon coupon) {
         CouponToUser couponToUser = new CouponToUser();
         couponToUser.setName(coupon.getCampaign().getName());
         couponToUser.setStatus(coupon.getStatus());

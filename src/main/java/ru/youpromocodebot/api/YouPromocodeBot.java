@@ -49,7 +49,7 @@ public class YouPromocodeBot extends TelegramWebhookBot {
         try {
             execute(sendPhoto);
         } catch (TelegramApiException e) {
-            log.error("Message can't send");
+            log.error("Photo can't send");
         }
     }
 

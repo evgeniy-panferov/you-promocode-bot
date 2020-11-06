@@ -59,7 +59,7 @@ public class CouponsCommandHandler implements CommandHandler {
                     });
 
             String message = collect.isEmpty() ? "Акции не найдены" :
-                    messageService.getMessage("reply.loaded.partner.actions", collect.get(0).getName());
+                    messageService.getMessage("reply.loaded.coupons.actions", collect.get(0).getName());
             return new SendMessage(chatId, message);
         }
         return null;
