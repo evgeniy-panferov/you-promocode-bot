@@ -43,23 +43,23 @@ public class CouponsCommandHandler implements CommandHandler {
                         CouponToUser couponForIdForWebsite = couponsService.getCouponForIdForWebsite(String.valueOf(couponToUser.getId()));
 
                         Map<String, String> messageMap = new HashMap<>();
-                        messageMap.put("reply.coupon.name", couponForIdForWebsite.getName());
-                        messageMap.put("reply.coupon.status", couponForIdForWebsite.getStatus());
-                        messageMap.put("reply.coupon.description", couponForIdForWebsite.getDescription());
-                        messageMap.put("reply.coupon.discount", couponForIdForWebsite.getDiscount());
-                        messageMap.put("reply.coupon.species", couponForIdForWebsite.getSpecies());
-                        messageMap.put("reply.coupon.shortName", couponForIdForWebsite.getShortName());
-                        messageMap.put("reply.coupon.dateStart", couponForIdForWebsite.getDateStart());
-                        messageMap.put("reply.coupon.dateEnd", couponForIdForWebsite.getDateEnd());
-                        messageMap.put("reply.coupon.link", couponForIdForWebsite.getGotoLink());
-                        messageMap.put("reply.coupon.promocode", couponForIdForWebsite.getPromocode());
+                        messageMap.put("smile.seek|reply.coupon.name", couponForIdForWebsite.getName());
+                        messageMap.put("smile.check|reply.coupon.status", couponForIdForWebsite.getStatus());
+                        messageMap.put("smile.memo|reply.coupon.description", couponForIdForWebsite.getDescription());
+                        messageMap.put("smile.creditCard|reply.coupon.discount", couponForIdForWebsite.getDiscount());
+                        messageMap.put("smile.check|reply.coupon.species", couponForIdForWebsite.getSpecies());
+                        messageMap.put("smile.memo|reply.coupon.shortName", couponForIdForWebsite.getShortName());
+                        messageMap.put("smile.watch|reply.coupon.dateStart", couponForIdForWebsite.getDateStart());
+                        messageMap.put("smile.watch|reply.coupon.dateEnd", couponForIdForWebsite.getDateEnd());
+                        messageMap.put("smile.link|reply.coupon.link", couponForIdForWebsite.getGotoLink());
+                        messageMap.put("smile.check|reply.coupon.promocode", couponForIdForWebsite.getPromocode());
 
                         SendPhoto sendPhoto = messagesGenerator.createPhotoMessageToUser(chatId, getMessage(messageMap), couponForIdForWebsite.getImageUrl());
                         youPromocodeBot.sendPhoto(sendPhoto);
                     });
 
             String message = collect.isEmpty() ? "Акции не найдены" :
-                    messageService.getMessage("reply.loaded.coupons.actions", collect.get(0).getName());
+                    messageService.getMessageSmile("smile.creditCard","reply.loaded.coupons.actions", collect.get(0).getName());
             return new SendMessage(chatId, message);
         }
         return null;
@@ -69,7 +69,10 @@ public class CouponsCommandHandler implements CommandHandler {
         return messageMap.keySet()
                 .stream()
                 .filter(key -> !messageMap.get(key).equalsIgnoreCase(""))
-                .map(key -> messageService.getMessage(key, messageMap.get(key)))
+                .map(key -> {
+                            String[] split = key.split("\\|");
+                            return messageService.getMessageSmile(split[0], split[1], messageMap.get(key));
+                        })
                 .reduce((acc, string) -> acc + string)
                 .orElse("Информация о скидке не заполнена");
 
