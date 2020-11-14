@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import ru.youpromocodebot.model.Message;
 import ru.youpromocodebot.model.dto.admitad.Sites;
-import ru.youpromocodebot.repository.WebmasterSitesApi;
+import ru.youpromocodebot.client.WebmasterSitesApi;
 
 @Slf4j
 @Component

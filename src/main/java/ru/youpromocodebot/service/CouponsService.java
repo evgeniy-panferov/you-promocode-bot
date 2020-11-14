@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import ru.youpromocodebot.model.dto.admitad.CouponCategories;
 import ru.youpromocodebot.model.dto.user.CouponToUser;
-import ru.youpromocodebot.repository.CouponsApi;
+import ru.youpromocodebot.client.CouponsApi;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package ru.youpromocodebot.repository;
+package ru.youpromocodebot.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import ru.youpromocodebot.client.AdmitadConnection;
 import ru.youpromocodebot.model.Message;
 import ru.youpromocodebot.model.dto.admitad.Programs;
 import ru.youpromocodebot.model.dto.user.ProgramToUser;

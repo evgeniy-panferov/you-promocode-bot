@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.youpromocodebot.model.Message;
 import ru.youpromocodebot.model.dto.admitad.Programs;
 import ru.youpromocodebot.model.dto.user.ProgramToUser;
-import ru.youpromocodebot.repository.PartnershipsProgramsApi;
+import ru.youpromocodebot.client.PartnershipsProgramsApi;
 
 import java.util.List;
 

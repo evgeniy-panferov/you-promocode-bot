@@ -16,9 +16,11 @@ public class Site extends BaseEntity {
 
     private String kind;
 
-    private Boolean is_old;
+    @JsonProperty(value = "is_old")
+    private Boolean isOld;
 
-    private String verification_code;
+    @JsonProperty(value = "verification_code")
+    private String verificationCode;
 
     private AdServise adService;
 
