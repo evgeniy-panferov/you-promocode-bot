@@ -41,9 +41,13 @@ public class PartnershipsProgramCommandHandler implements CommandHandler {
                     .filter(programToUser -> programToUser.getConnectionStatus().equalsIgnoreCase("active"))
                     .forEach(programToUser -> {
                         String button = messageService.getMessage("reply.button.actionList");
-                        SendPhoto photoMessageToUser = messagesGenerator.createPhotoMessageToUserWithInlineKeyboard(
-                                chatId, programToUser.getName(),
-                                Collections.singletonMap(button + "|" + programToUser.getId(), button), programToUser.getImageUrl());
+                        SendPhoto photoMessageToUser = messagesGenerator.createPhotoMessageToUserWithInlineKeyboard
+                                (
+                                        chatId, programToUser.getName(),
+                                        Collections.singletonMap(button + "|" + programToUser.getId() + "|" + programToUser.getIsDatabaseEntity(), button),
+                                        programToUser.getImageUrl(),
+                                        programToUser.getIsDatabaseEntity()
+                                );
                         youPromocodeBot.sendPhoto(photoMessageToUser);
                     });
             return new SendMessage(chatId, messageService.getMessage("reply.partnerships.loaded"));

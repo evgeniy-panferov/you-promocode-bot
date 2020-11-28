@@ -3,22 +3,22 @@ package ru.youpromocodebot.client;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @Data
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AdmitadConnection {
+
+    private static final Logger log = LoggerFactory.getLogger(AdmitadConnection.class);
 
     private final RestTemplate restTemplate;
 
@@ -42,42 +42,6 @@ public class AdmitadConnection {
                 .queryParams(param);
 
         ResponseEntity<T> response = restTemplate.exchange(uriBuilder.toUriString(),
-                httpMethod, getHttpEntity(param), clazz);
-
-        return response.getBody();
-    }
-
-    public <T> T getEntity(String uri, HttpMethod httpMethod, Class<T> clazz,
-                           String... uriPath) {
-        log.info("AdmitadConnectionApi getEntity uri - {}, httpMethod - {}, clazz - {}, uriPath-{}",
-                uri, httpMethod, clazz, uriPath);
-
-        List<String> paths = Arrays.asList(uriPath);
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);
-
-        paths.forEach(builder::path);
-
-        ResponseEntity<T> response = restTemplate.exchange(builder.toUriString(),
-                httpMethod, getHttpEntity(), clazz);
-
-        return response.getBody();
-    }
-
-    public <T> T getEntity(String uri, HttpMethod httpMethod, Class<T> clazz,
-                           MultiValueMap<String, String> param, String... uriPath) {
-        log.info("AdmitadConnectionApi getEntity uri - {}, httpMethod - {}, clazz - {}, param  - {}, uriPath-{}",
-                uri, httpMethod, clazz, param, uriPath);
-
-        List<String> paths = Arrays.asList(uriPath);
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);
-
-        paths.forEach(builder::path);
-
-        param.forEach((key, value) -> builder.queryParam(key, param.get(key)));
-
-        ResponseEntity<T> response = restTemplate.exchange(builder.toUriString(),
                 httpMethod, getHttpEntity(param), clazz);
 
         return response.getBody();

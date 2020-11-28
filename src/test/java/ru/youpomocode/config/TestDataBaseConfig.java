@@ -1,4 +1,4 @@
-package ru.youpromocodebot.config;
+package ru.youpomocode.config;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.ehcache.jsr107.EhcacheCachingProvider;
@@ -8,6 +8,7 @@ import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -19,14 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@PropertySource("classpath:properties/hsqldb.yml")
 @EnableJpaRepositories("ru.youpromocodebot.dao")
-@PropertySource("classpath:properties/postgres.yml")
-public class DataBaseConfig {
+@Profile("test")
+public class TestDataBaseConfig {
 
     @Value("${database.url}")
     private String url;
 
-    @Value("${database.user}")
+    @Value("${database.username}")
     private String username;
 
     @Value("${database.password}")
@@ -36,10 +38,9 @@ public class DataBaseConfig {
     public DataSource dataSource() {
         org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
         dataSource.setUrl(url);
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setDriverClassName("org.hsqldb.yml.jdbcDriver");
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-
         return dataSource;
     }
 
@@ -57,7 +58,7 @@ public class DataBaseConfig {
         mapSetting.put(AvailableSettings.JPA_PROXY_COMPLIANCE, false);
         mapSetting.put(AvailableSettings.CACHE_REGION_FACTORY, new JCacheRegionFactory());
         mapSetting.put(ConfigSettings.PROVIDER, new EhcacheCachingProvider());
-        mapSetting.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, true);
+        mapSetting.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, false);
         mapSetting.put(AvailableSettings.USE_QUERY_CACHE, false);
         mapSetting.put("javax.persistence.validation.group.pre-persist", "javax.validation.groups.Default");
         mapSetting.put("javax.persistence.validation.group.pre-update", "javax.validation.groups.Default");

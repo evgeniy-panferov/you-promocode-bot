@@ -1,0 +1,25 @@
+insert into CAMPAIGN(name)
+values ('Бич шоп');
+insert into CAMPAIGN(name)
+values ('Бич шоп1');
+insert into CAMPAIGN(name)
+values ('Бич шоп2');
+
+insert into COUPON
+(name, status, description, campaign_id, discount, species, promocode,
+ frameset_link, goto_link, short_name, date_start, date_end)
+values ('Скидка 100500', 'Active', 'Скидки для нищебродов', '0', '100500%', 'Action', 'Не требуется',
+        'bitchshopframe.ru', 'bitchshopgoto.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
+        '2020-10-22 10:00:00');
+
+insert into COUPON
+(name, status, description, campaign_id, discount, species, promocode,
+ frameset_link, goto_link, short_name, date_start, date_end)
+values ('Скидка1 100500', 'Active', 'Скидки для нищебродов', '0', '100500%', 'Action', 'Не требуется',
+        'bitchshopframe1.ru', 'bitchshopgoto1.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
+        '2020-10-22 10:00:00');
+
+insert into REGION(COUPON_ID, REGION)
+values (0, 'RU');
+insert into REGION(COUPON_ID, REGION)
+values (1, 'RU');

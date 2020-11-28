@@ -11,9 +11,7 @@ import ru.youpromocodebot.model.dto.user.CouponToUser;
 import ru.youpromocodebot.service.CouponsService;
 import ru.youpromocodebot.service.MessagesGenerator;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -35,46 +33,49 @@ public class CouponsCommandHandler implements CommandHandler {
     public SendMessage resolveMatchCommand(Long chatId, String... text) {
         log.info("CouponsCommandHandler findMatchCommand - text {}, chatId {}", text, chatId);
         if (text[0].equalsIgnoreCase(messageService.getMessage("reply.button.actionList"))) {
-            List<CouponToUser> collect = couponsService.getCouponsForPartnershipsProgram(text[1]);
+            List<CouponToUser> couponsToUsers = couponsService.getForPartnerShipsProgram(text[1], Boolean.parseBoolean(text[2]));
 
-            collect.stream()
+            couponsToUsers
+                    .stream()
                     .filter(couponToUser -> couponToUser.getRegions().contains("RU"))
                     .forEach(couponToUser -> {
-                        CouponToUser couponForIdForWebsite = couponsService.getCouponForIdForWebsite(String.valueOf(couponToUser.getId()));
-
-                        Map<String, String> messageMap = new HashMap<>();
-                        messageMap.put("smile.seek|reply.coupon.name", couponForIdForWebsite.getName());
-                        messageMap.put("smile.check|reply.coupon.status", couponForIdForWebsite.getStatus());
-                        messageMap.put("smile.memo|reply.coupon.description", couponForIdForWebsite.getDescription());
-                        messageMap.put("smile.creditCard|reply.coupon.discount", couponForIdForWebsite.getDiscount());
-                        messageMap.put("smile.check|reply.coupon.species", couponForIdForWebsite.getSpecies());
-                        messageMap.put("smile.memo|reply.coupon.shortName", couponForIdForWebsite.getShortName());
-                        messageMap.put("smile.watch|reply.coupon.dateStart", couponForIdForWebsite.getDateStart());
-                        messageMap.put("smile.watch|reply.coupon.dateEnd", couponForIdForWebsite.getDateEnd());
-                        messageMap.put("smile.link|reply.coupon.link", couponForIdForWebsite.getGotoLink());
-                        messageMap.put("smile.check|reply.coupon.promocode", couponForIdForWebsite.getPromocode());
-
-                        SendPhoto sendPhoto = messagesGenerator.createPhotoMessageToUser(chatId, getMessage(messageMap), couponForIdForWebsite.getImageUrl());
+                        CouponToUser couponForId = couponsService.getForId(String.valueOf(couponToUser.getId()), couponToUser.isDatabaseEntity());
+                        SendPhoto sendPhoto = getSendPhoto(chatId, couponForId);
                         youPromocodeBot.sendPhoto(sendPhoto);
                     });
 
-            String message = collect.isEmpty() ? "Акции не найдены" :
-                    messageService.getMessageSmile("smile.creditCard","reply.loaded.coupons.actions", collect.get(0).getName());
+            String message = couponsToUsers.isEmpty() ? "Акции не найдены" :
+                    messageService.getMessageSmile("smile.creditCard", "reply.loaded.coupons.actions", couponsToUsers.get(0).getName());
             return new SendMessage(chatId, message);
         }
         return null;
     }
 
+    private SendPhoto getSendPhoto(Long chatId, CouponToUser couponForId) {
+        Map<String, String> messageMap = new LinkedHashMap<>();
+        messageMap.put("smile.seek|reply.coupon.name", couponForId.getName());
+        messageMap.put("smile.check|reply.coupon.status", couponForId.getStatus());
+        messageMap.put("smile.memo|reply.coupon.description", couponForId.getDescription());
+        messageMap.put("smile.creditCard|reply.coupon.discount", couponForId.getDiscount());
+        messageMap.put("smile.check|reply.coupon.species", couponForId.getSpecies());
+        messageMap.put("smile.memo|reply.coupon.shortName", couponForId.getShortName());
+        messageMap.put("smile.watch|reply.coupon.dateStart", couponForId.getDateStart());
+        messageMap.put("smile.watch|reply.coupon.dateEnd", couponForId.getDateEnd());
+        messageMap.put("smile.link|reply.coupon.link", couponForId.getGotoLink());
+        messageMap.put("smile.check|reply.coupon.promocode", couponForId.getPromocode());
+        return messagesGenerator.createPhotoMessageToUser(chatId, getMessage(messageMap), couponForId.getImageUrl(), couponForId.getIsDatabaseEntity());
+    }
+
     private String getMessage(Map<String, String> messageMap) {
-        return messageMap.keySet()
+        return messageMap
+                .keySet()
                 .stream()
                 .filter(key -> !messageMap.get(key).equalsIgnoreCase(""))
                 .map(key -> {
-                            String[] split = key.split("\\|");
-                            return messageService.getMessageSmile(split[0], split[1], messageMap.get(key));
-                        })
+                    String[] split = key.split("\\|");
+                    return messageService.getMessageSmile(split[0], split[1], messageMap.get(key));
+                })
                 .reduce((acc, string) -> acc + string)
                 .orElse("Информация о скидке не заполнена");
-
     }
 }

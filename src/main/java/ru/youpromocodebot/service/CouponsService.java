@@ -2,42 +2,34 @@ package ru.youpromocodebot.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import ru.youpromocodebot.model.dto.admitad.CouponCategories;
-import ru.youpromocodebot.model.dto.user.CouponToUser;
+import org.springframework.stereotype.Component;
 import ru.youpromocodebot.client.CouponsApi;
+import ru.youpromocodebot.dao.CouponDaoImpl;
+import ru.youpromocodebot.model.dto.admitad.Coupons;
+import ru.youpromocodebot.model.dto.user.CouponToUser;
 
 import java.util.List;
 
 @Slf4j
-@Controller
+@Component
 @RequiredArgsConstructor
 public class CouponsService {
 
     private final CouponsApi couponsApi;
+    private final CouponDaoImpl couponDaoImpl;
 
-    public CouponsApi getCoupons() {
+    public Coupons findAll() {
         log.info("CouponsService getCoupons");
-        return couponsApi.getCoupons();
+        return couponsApi.findAll();
     }
 
-    public CouponsApi getCouponsForSites(String id) {
-        log.info("CouponsService getCouponsForSites id - {}", id);
-        return couponsApi.getCouponsForSites(id);
-    }
-
-    public CouponCategories getCategoriesCoupons() {
-        log.info("CouponsService getCategories");
-        return couponsApi.getCategoriesCoupons();
-    }
-
-    public List<CouponToUser> getCouponsForPartnershipsProgram(String id) {
+    public List<CouponToUser> getForPartnerShipsProgram(String id, boolean isDatabaseEntity) {
         log.info("CouponsService getCouponsForPartnershipsProgram id - {}", id);
-        return couponsApi.getCouponsForPartnerShipsProgram(id);
+        return isDatabaseEntity ? couponDaoImpl.getForPartnershipsProgram(id) : couponsApi.getForPartnershipsProgram(id);
     }
 
-    public CouponToUser getCouponForIdForWebsite(String id) {
+    public CouponToUser getForId(String id, boolean isDatabaseEntity) {
         log.info("CouponsService getCouponForId id-{}", id);
-        return couponsApi.getCouponForId(id);
+        return isDatabaseEntity ? couponDaoImpl.getForId(id) : couponsApi.getForId(id);
     }
 }

@@ -1,8 +1,6 @@
 package ru.youpromocodebot.model.dto.user;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.SneakyThrows;
+import lombok.*;
 import ru.youpromocodebot.model.BaseEntity;
 import ru.youpromocodebot.util.DateParse;
 
@@ -10,8 +8,10 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class CouponToUser extends BaseEntity {
 
     private String status;
@@ -37,6 +37,8 @@ public class CouponToUser extends BaseEntity {
     private String framesetLink;
 
     private String gotoLink;
+
+    private Boolean isDatabaseEntity;
 
     public String getStatus() {
         return status.equalsIgnoreCase("Active") ? "Активна" : "Не активна";
@@ -86,5 +88,9 @@ public class CouponToUser extends BaseEntity {
 
     public String getGotoLink() {
         return gotoLink == null ? "" : gotoLink;
+    }
+
+    public Boolean isDatabaseEntity() {
+        return isDatabaseEntity;
     }
 }

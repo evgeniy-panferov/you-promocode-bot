@@ -13,7 +13,7 @@ import java.util.Objects;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class CommandHandlerComposite implements CommandHandler{
+public class CommandHandlerComposite implements CommandHandler {
 
     private final List<CommandHandler> commandHandlerList;
 

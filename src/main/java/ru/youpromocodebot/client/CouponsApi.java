@@ -1,26 +1,30 @@
 package ru.youpromocodebot.client;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import ru.youpromocodebot.dao.CouponDao;
 import ru.youpromocodebot.model.Coupon;
-import ru.youpromocodebot.model.dto.admitad.CouponCategories;
 import ru.youpromocodebot.model.dto.admitad.Coupons;
 import ru.youpromocodebot.model.dto.user.CouponToUser;
-import ru.youpromocodebot.util.EntityToDto;
 
 import java.text.MessageFormat;
 import java.util.List;
 
-@Slf4j
+import static ru.youpromocodebot.util.EntityToDto.convertCouponToDto;
+import static ru.youpromocodebot.util.EntityToDto.convertCouponToUser;
+
 @Controller
 @RequiredArgsConstructor
-public class CouponsApi {
+public class CouponsApi implements CouponDao {
+
+    private static final Logger log = LoggerFactory.getLogger(CouponsApi.class);
 
     @Value("${websiteId}")
     private String websiteId;
@@ -30,41 +34,29 @@ public class CouponsApi {
 
     private static final String COUPONS_URL = "https://api.admitad.com/coupons/";
 
-    private static final String CATEGORIES_URL = "https://api.admitad.com/coupons/categories/";
-
-    private static final String COUPONS_URL_FOR_SITES = "https://api.admitad.com/coupons/website/";
-
     private static final String COUPONS_FOR_ID_AND_PARTNERSHIPS_ID = "https://api.admitad.com/coupons/{0}/website/{1}/";
 
     private final AdmitadConnection admitadConnection;
 
-    public CouponsApi getCoupons() {
+
+    public Coupons findAll() {
         log.info("CouponsApi getCoupons");
-        return admitadConnection.getEntity(COUPONS_URL, HttpMethod.GET, CouponsApi.class);
+        return admitadConnection.getEntity(COUPONS_URL, HttpMethod.GET, Coupons.class);
     }
 
-    public CouponsApi getCouponsForSites(String id) {
-        log.info("CouponsApi getCouponsForSites id - {}", id);
-        return admitadConnection.getEntity(COUPONS_URL_FOR_SITES, HttpMethod.GET, CouponsApi.class, id);
-    }
-
-    public CouponCategories getCategoriesCoupons() {
-        log.info("CouponsApi getCategories");
-        return admitadConnection.getEntity(CATEGORIES_URL, HttpMethod.GET, CouponCategories.class);
-    }
     @Cacheable(value = "couponsForPartnerShipsProgram", key = "#id")
-    public List<CouponToUser> getCouponsForPartnerShipsProgram(String id) {
+    public List<CouponToUser> getForPartnershipsProgram(String id) {
         log.info("CouponsService getCouponsForPartnerShipsProgram id-{}, limit-{}", id, limit);
         MultiValueMap<String, String> query = new LinkedMultiValueMap<>();
         query.add("campaign", id);
         query.add("limit", limit);
-        return EntityToDto.convertCouponToDto(admitadConnection.getEntity(COUPONS_URL, HttpMethod.GET, Coupons.class, query));
+        return convertCouponToDto(admitadConnection.getEntity(COUPONS_URL, HttpMethod.GET, Coupons.class, query));
     }
 
     @Cacheable(value = "couponToUser", key = "#id")
-    public CouponToUser getCouponForId(String id) {
+    public CouponToUser getForId(String id) {
         log.info("CouponsService getCouponForId id-{}", id);
         String formatUrl = MessageFormat.format(COUPONS_FOR_ID_AND_PARTNERSHIPS_ID, id, websiteId);
-        return EntityToDto.convertCouponToUser(admitadConnection.getEntity(formatUrl, HttpMethod.GET, Coupon.class));
+        return convertCouponToUser(admitadConnection.getEntity(formatUrl, HttpMethod.GET, Coupon.class));
     }
 }

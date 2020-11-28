@@ -1,6 +1,7 @@
 package ru.youpromocodebot.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -10,20 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 public class KeyboardsUtil {
+
+    private KeyboardsUtil() {
+    }
+
+    private static final Logger log = LoggerFactory.getLogger(KeyboardsUtil.class);
 
     public static InlineKeyboardMarkup getInlineKeyboard(Map<String, String> buttons) {
         log.info("KeyboardsUtil getInlineKeyboard list - {}", buttons);
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        buttons.keySet().forEach(key -> {
-            List<InlineKeyboardButton> list = new ArrayList<>();
-            list.add(new InlineKeyboardButton()
-                    .setCallbackData(key)
-                    .setText(buttons.get(key)));
-            keyboard.add(list);
-        });
+        buttons
+                .keySet()
+                .forEach(key -> {
+                    List<InlineKeyboardButton> list = new ArrayList<>();
+                    list.add(new InlineKeyboardButton()
+                            .setCallbackData(key)
+                            .setText(buttons.get(key)));
+                    keyboard.add(list);
+                });
 
         return new InlineKeyboardMarkup(keyboard);
     }
