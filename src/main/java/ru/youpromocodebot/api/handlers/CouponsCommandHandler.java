@@ -1,5 +1,6 @@
 package ru.youpromocodebot.api.handlers;
 
+import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,9 @@ import ru.youpromocodebot.model.dto.user.CouponToUser;
 import ru.youpromocodebot.service.CouponsService;
 import ru.youpromocodebot.service.MessagesGenerator;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -33,37 +36,37 @@ public class CouponsCommandHandler implements CommandHandler {
     public SendMessage resolveMatchCommand(Long chatId, String... text) {
         log.info("CouponsCommandHandler findMatchCommand - text {}, chatId {}", text, chatId);
         if (text[0].equalsIgnoreCase(messageService.getMessage("reply.button.actionList"))) {
+            youPromocodeBot.sendMessage(new SendMessage(chatId, EmojiParser.parseToUnicode(":stopwatch:") +"Секунду, данные загружаются"));
             List<CouponToUser> couponsToUsers = couponsService.getForPartnerShipsProgram(text[1], Boolean.parseBoolean(text[2]));
 
             couponsToUsers
                     .stream()
                     .filter(couponToUser -> couponToUser.getRegions().contains("RU"))
                     .forEach(couponToUser -> {
-                        CouponToUser couponForId = couponsService.getForId(String.valueOf(couponToUser.getId()), couponToUser.isDatabaseEntity());
-                        SendPhoto sendPhoto = getSendPhoto(chatId, couponForId);
+                        SendPhoto sendPhoto = getSendPhoto(chatId, couponToUser);
                         youPromocodeBot.sendPhoto(sendPhoto);
                     });
 
             String message = couponsToUsers.isEmpty() ? "Акции не найдены" :
-                    messageService.getMessageSmile("smile.creditCard", "reply.loaded.coupons.actions", couponsToUsers.get(0).getName());
+                    messageService.getMessageSmile("smile.creditCard", "reply.loaded.coupons.actions");
             return new SendMessage(chatId, message);
         }
         return null;
     }
 
-    private SendPhoto getSendPhoto(Long chatId, CouponToUser couponForId) {
+    private SendPhoto getSendPhoto(Long chatId, CouponToUser couponToUser) {
         Map<String, String> messageMap = new LinkedHashMap<>();
-        messageMap.put("smile.seek|reply.coupon.name", couponForId.getName());
-        messageMap.put("smile.check|reply.coupon.status", couponForId.getStatus());
-        messageMap.put("smile.memo|reply.coupon.description", couponForId.getDescription());
-        messageMap.put("smile.creditCard|reply.coupon.discount", couponForId.getDiscount());
-        messageMap.put("smile.check|reply.coupon.species", couponForId.getSpecies());
-        messageMap.put("smile.memo|reply.coupon.shortName", couponForId.getShortName());
-        messageMap.put("smile.watch|reply.coupon.dateStart", couponForId.getDateStart());
-        messageMap.put("smile.watch|reply.coupon.dateEnd", couponForId.getDateEnd());
-        messageMap.put("smile.link|reply.coupon.link", couponForId.getGotoLink());
-        messageMap.put("smile.check|reply.coupon.promocode", couponForId.getPromocode());
-        return messagesGenerator.createPhotoMessageToUser(chatId, getMessage(messageMap), couponForId.getImageUrl(), couponForId.getIsDatabaseEntity());
+        messageMap.put("smile.seek|reply.coupon.name", couponToUser.getName());
+        messageMap.put("smile.check|reply.coupon.status", couponToUser.getStatus());
+        messageMap.put("smile.memo|reply.coupon.description", couponToUser.getDescription());
+        messageMap.put("smile.creditCard|reply.coupon.discount", couponToUser.getDiscount());
+        messageMap.put("smile.check|reply.coupon.species", couponToUser.getSpecies());
+        messageMap.put("smile.memo|reply.coupon.shortName", couponToUser.getShortName());
+        messageMap.put("smile.watch|reply.coupon.dateStart", couponToUser.getDateStart());
+        messageMap.put("smile.watch|reply.coupon.dateEnd", couponToUser.getDateEnd());
+        messageMap.put("smile.link|reply.coupon.link", couponToUser.getGotoLink());
+        messageMap.put("smile.check|reply.coupon.promocode", couponToUser.getPromocode());
+        return messagesGenerator.createPhotoMessageToUser(chatId, getMessage(messageMap), couponToUser.getImageUrl(), couponToUser.getIsDatabaseEntity());
     }
 
     private String getMessage(Map<String, String> messageMap) {

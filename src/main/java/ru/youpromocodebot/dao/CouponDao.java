@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface CouponDao {
 
-    CouponToUser getForId(String id);
-
     List<CouponToUser> getForPartnershipsProgram(String id);
 
     Coupons findAll();

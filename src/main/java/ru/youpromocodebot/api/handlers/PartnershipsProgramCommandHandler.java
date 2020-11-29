@@ -1,5 +1,6 @@
 package ru.youpromocodebot.api.handlers;
 
+import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -36,6 +37,7 @@ public class PartnershipsProgramCommandHandler implements CommandHandler {
         String command = text[0];
 
         if (command.equalsIgnoreCase(MainCommand.PARTNERSHIPS_LIST.getCommand())) {
+            youPromocodeBot.sendMessage(new SendMessage(chatId, EmojiParser.parseToUnicode(":stopwatch:") +"Секунду, данные загружаются"));
             partnershipsProgramsService.getProgramsFromSites()
                     .stream()
                     .filter(programToUser -> programToUser.getConnectionStatus().equalsIgnoreCase("active"))

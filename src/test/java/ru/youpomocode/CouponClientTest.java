@@ -29,11 +29,4 @@ class CouponClientTest extends AbstractTest {
         assertThat(coupons, not(empty()));
         assertThat(coupons.get(0).getName(), equalTo("Hoff"));
     }
-
-    @Test
-    void getCouponForId() {
-        CouponToUser couponForId = couponsApi.getForId(String.valueOf(336210));
-        assertThat(couponForId.getShortName(), equalTo("Скидки на товары для дома"));
-    }
-
 }

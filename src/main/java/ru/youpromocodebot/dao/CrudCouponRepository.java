@@ -11,10 +11,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudCouponRepository extends JpaRepository<Coupon, Integer> {
 
-    @Query("SELECT c from Coupon c where c.id=:id")
-    Coupon getForId(@Param("id") int id);
-
     @Query("SELECT c from Coupon c where c.campaign.id=:campaignId")
+        //  @Query("SELECT c from Coupon c left join fetch c.regions where c.campaign.id=:campaignId") another way to solve n+1 issue
     List<Coupon> getForPartnershipsProgram(@Param("campaignId") int campaignId);
 
     int deleteCouponById(int id);

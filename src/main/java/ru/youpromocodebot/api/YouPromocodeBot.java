@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -34,12 +35,21 @@ public class YouPromocodeBot extends TelegramWebhookBot {
         return telegramView.updateHandler(update);
     }
 
+    public void sendMessage(SendMessage sendMessage) {
+        log.info("YouPromocodeBot sendPhoto, sendPhoto-{}", sendMessage);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            log.error("Message can't send - " + e);
+        }
+    }
+
     public void sendPhoto(SendPhoto sendPhoto) {
         log.info("YouPromocodeBot sendPhoto, sendPhoto-{}", sendPhoto);
         try {
             execute(sendPhoto);
         } catch (TelegramApiException e) {
-            log.error("Photo can't send");
+            log.error("Photo can't send - " + e);
         }
     }
 

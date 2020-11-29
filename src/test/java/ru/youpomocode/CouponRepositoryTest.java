@@ -13,13 +13,12 @@ import ru.youpromocodebot.config.AppConfig;
 import ru.youpromocodebot.dao.CouponDaoImpl;
 import ru.youpromocodebot.model.Coupon;
 import ru.youpromocodebot.model.dto.admitad.Coupons;
-import ru.youpromocodebot.model.dto.user.CouponToUser;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
-import static ru.youpomocode.TestData.*;
-import static ru.youpromocodebot.util.EntityToDto.convertCouponToUser;
+import static ru.youpomocode.TestData.COUPONS_DB;
+import static ru.youpomocode.TestData.getNewCouponDbEntity;
 
 
 @ContextConfiguration(classes = {AppConfig.class, TestDataBaseConfig.class})
@@ -34,16 +33,6 @@ class CouponRepositoryTest extends AbstractTest {
     void findAll() {
         Coupons coupons = couponDAOImpl.findAll();
         MatcherAssert.assertThat(coupons.getCoupons(), containsInAnyOrder(COUPONS_DB.toArray()));
-    }
-
-    @Test
-    void getForId() {
-        CouponToUser coupon = couponDAOImpl.getForId("0");
-        CouponToUser coupon1 = couponDAOImpl.getForId("1");
-        CouponToUser mockCoupon = convertCouponToUser(COUPON_TEST_DB_ID_0);
-        CouponToUser mockCoupon1 = convertCouponToUser(COUPON_TEST_DB_ID_1);
-        assertThat(coupon, equalTo(mockCoupon));
-        assertThat(coupon1, equalTo(mockCoupon1));
     }
 
     @Test

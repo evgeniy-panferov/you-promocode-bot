@@ -45,7 +45,7 @@ public class CouponToUser extends BaseEntity {
     }
 
     public String getDescription() {
-        return description.equalsIgnoreCase("") ? "" : description;
+        return description.length() >= 550 ? description.substring(0, 550) : description;
     }
 
     public String getDiscount() {

@@ -59,14 +59,9 @@ public class MessagesGenerator {
             }
         } catch (FileNotFoundException e) {
             log.error(e.getMessage());
-            try {
-                sendPhoto.setPhoto(getFile("classpath:image/photo_not_found.jpg"));
-            } catch (FileNotFoundException fileNotFoundException) {
-                log.error(String.format("second level error - %s", fileNotFoundException.getMessage()));
-            }
         }
+
         sendPhoto.setChatId(chatId);
-        sendPhoto.setCaption(message);
         sendPhoto.setCaption(message);
         return sendPhoto;
     }

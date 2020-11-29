@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import ru.youpromocodebot.client.JsonDateSerializer;
 
 import javax.persistence.*;
@@ -54,7 +55,7 @@ public class Coupon extends BaseEntity {
     @Column
     private String status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 
@@ -67,6 +68,7 @@ public class Coupon extends BaseEntity {
             joinColumns = @JoinColumn(name = "coupon_id")
     )
     @Column(name = "region")
+    @BatchSize(size = 50)
     private List<String> regions;
 
     @Column

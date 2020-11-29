@@ -27,9 +27,4 @@ public class CouponsService {
         log.info("CouponsService getCouponsForPartnershipsProgram id - {}", id);
         return isDatabaseEntity ? couponDaoImpl.getForPartnershipsProgram(id) : couponsApi.getForPartnershipsProgram(id);
     }
-
-    public CouponToUser getForId(String id, boolean isDatabaseEntity) {
-        log.info("CouponsService getCouponForId id-{}", id);
-        return isDatabaseEntity ? couponDaoImpl.getForId(id) : couponsApi.getForId(id);
-    }
 }

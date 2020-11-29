@@ -32,7 +32,7 @@ public class CouponsApi implements CouponDao {
     @Value("${limit}")
     private String limit;
 
-    private static final String COUPONS_URL = "https://api.admitad.com/coupons/";
+    private static final String COUPONS_URL = "https://api.admitad.com/coupons/website/{0}/";
 
     private static final String COUPONS_FOR_ID_AND_PARTNERSHIPS_ID = "https://api.admitad.com/coupons/{0}/website/{1}/";
 
@@ -50,7 +50,8 @@ public class CouponsApi implements CouponDao {
         MultiValueMap<String, String> query = new LinkedMultiValueMap<>();
         query.add("campaign", id);
         query.add("limit", limit);
-        return convertCouponToDto(admitadConnection.getEntity(COUPONS_URL, HttpMethod.GET, Coupons.class, query));
+        String formatUrl = MessageFormat.format(COUPONS_URL, websiteId);
+        return convertCouponToDto(admitadConnection.getEntity(formatUrl, HttpMethod.GET, Coupons.class, query));
     }
 
     @Cacheable(value = "couponToUser", key = "#id")
