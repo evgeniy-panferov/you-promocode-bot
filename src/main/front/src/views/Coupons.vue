@@ -15,32 +15,33 @@
 </template>
 <script>
     import Coupon from "../components/Coupon";
+    import Program from "../components/Program";
     import {TrinityRingsSpinner} from 'epic-spinners'
 
     export default {
         components: {
             Coupon,
+            Program,
             TrinityRingsSpinner
         },
         data() {
             return {
                 coupons: [],
                 loading: true,
-                isDatabase: ''
             }
         },
 
         computed: {
             resource: function () {
-                return this.$resource('http://localhost:8080/coupons{/id}')
+                return this.$resource('http://localhost:8080/api/coupons{/id}')
             }
         },
 
         created() {
-            this.isDatabase = this.$route.params.isDatabase;
+
             var option = {
                 id: this.$route.params.id,
-                isDatabase: this.isDatabase
+                isDatabase: this.$route.query.isDatabase
             }
 
             this.resource.get(option)

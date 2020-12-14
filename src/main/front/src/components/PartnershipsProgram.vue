@@ -26,7 +26,7 @@
 
         computed: {
             resource: function () {
-                return this.$resource('http://localhost:8080/partnerships-programs')
+                return this.$resource('http://localhost:8080/api/partnerships-programs')
             }
         },
 

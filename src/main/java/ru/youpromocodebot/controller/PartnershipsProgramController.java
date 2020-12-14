@@ -14,11 +14,11 @@ import ru.youpromocodebot.service.PartnershipsProgramsService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @AllArgsConstructor
 @RequestMapping(value = PartnershipsProgramController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PartnershipsProgramController {
-    static final String REST_URL = "/partnerships-programs";
+    static final String REST_URL = "api/partnerships-programs";
 
     private static final Logger log = LoggerFactory.getLogger(PartnershipsProgramController.class);
 

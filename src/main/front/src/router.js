@@ -17,6 +17,11 @@ export default new Router({
             path: '/coupons/:id',
             component: Coupons,
             name: 'Coupons',
+            children: [{
+                path: '*/*',
+                redirect: {name: 'PartnershipsPrograms'}
+            }
+            ]
         },
         {
             path: '*',
@@ -24,4 +29,6 @@ export default new Router({
             name: 'PartnershipsPrograms'
         }
     ]
+
+
 })

@@ -1,7 +1,8 @@
 package ru.youpromocodebot.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.youpromocodebot.client.CouponsApi;
@@ -13,13 +14,15 @@ import java.util.List;
 
 import static ru.youpromocodebot.util.EntityToDto.convertCouponsToDtoWeb;
 
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 public class CouponsService {
 
     private final CouponsApi couponsApi;
     private final CouponDaoImpl couponDaoImpl;
+
+    private static final Logger log = LoggerFactory.getLogger(CouponsService.class);
 
     public Coupons findAll() {
         log.info("CouponsService getCoupons");

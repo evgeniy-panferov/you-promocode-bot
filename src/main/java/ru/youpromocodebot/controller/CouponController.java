@@ -11,14 +11,14 @@ import ru.youpromocodebot.service.CouponsService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @AllArgsConstructor
 @RequestMapping(value = CouponController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class CouponController {
 
     private static final Logger log = LoggerFactory.getLogger(CouponController.class);
 
-    static final String REST_URL = "/coupons";
+    static final String REST_URL = "/api/coupons";
 
     private final CouponsService couponsService;
 

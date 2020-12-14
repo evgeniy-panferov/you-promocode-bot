@@ -3,8 +3,11 @@
         <img v-bind:src="program.imageUrl">
         <div class="coupon-list">
             <h3>{{program.name}}</h3>
-            <a class="button"
-               v-on:click="loadCoupon">Открыть</a>
+
+                <a class="button"
+                   v-on:click="loadCoupon">Открыть</a>
+
+
         </div>
     </div>
 </template>
@@ -22,9 +25,9 @@
             loadCoupon() {
                 this.$router.push({
                     name: 'Coupons',
-                    params: {id: this.program.id, isDatabase: this.program.isDatabaseEntity}
+                    params: {id: this.program.id},
+                    query: {isDatabase: this.program.isDatabaseEntity}
                 })
-
             }
         }
     }
