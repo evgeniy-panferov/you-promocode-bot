@@ -11,9 +11,9 @@ create table Campaign
 (
     id                 SERIAL PRIMARY KEY,
     name               VARCHAR(255) UNIQUE,
-    connection_status  VARCHAR(255) DEFAULT 'active'                              NOT NULL,
-    is_database_entity BOOLEAN      DEFAULT TRUE                                  NOT NULL,
-    image_url          VARCHAR(255) DEFAULT 'classpath:image/photo_not_found.jpg' NOT NULL
+    connection_status  VARCHAR(255) DEFAULT 'active'          NOT NULL,
+    is_database_entity BOOLEAN      DEFAULT TRUE              NOT NULL,
+    image_url          VARCHAR(255) DEFAULT 'photo_not_found' NOT NULL
 );
 
 create table Region
@@ -37,8 +37,8 @@ create table Coupon
     short_name         VARCHAR(255),
     date_start         TIMESTAMP,
     date_end           TIMESTAMP,
-    image_url          VARCHAR(255) DEFAULT 'classpath:image/photo_not_found.jpg' NOT NULL,
-    is_database_entity BOOLEAN      DEFAULT TRUE                                  NOT NULL
+    image_url          VARCHAR(255) DEFAULT 'photo_not_found' NOT NULL,
+    is_database_entity BOOLEAN      DEFAULT TRUE              NOT NULL
 );
 
 ALTER TABLE COUPON

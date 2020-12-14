@@ -7,11 +7,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.util.ResourceUtils.getFile;
 import static ru.youpromocodebot.util.KeyboardsUtil.getInlineKeyboard;
 import static ru.youpromocodebot.util.KeyboardsUtil.getReplyKeyboard;
 
@@ -43,24 +41,17 @@ public class MessagesGenerator {
 
     public SendPhoto createPhotoMessageToUserWithInlineKeyboard(Long chatId, String message, Map<String, String> buttons,
                                                                 String imageUrl, boolean isDatabaseEntity) {
+        log.info("MessagesGeneratorUtil createPhotoMessageToUserWithInlineKeyboard chatId - {}, message - {}, buttons - {}" +
+                "imageUrl-{}, isDatabaseEntity-{}", chatId, message, buttons, imageUrl, isDatabaseEntity);
         SendPhoto sendPhoto = createPhotoMessageToUser(chatId, message, imageUrl, isDatabaseEntity);
         sendPhoto.setReplyMarkup(getInlineKeyboard(buttons));
         return sendPhoto;
     }
 
     public SendPhoto createPhotoMessageToUser(Long chatId, String message, String imageUrl, boolean isDatabaseEntity) {
-        log.info("MessagesGeneratorUtil createPhotoMessageToUser chatId - {}, messageToUser - {}", chatId, message);
+        log.info("MessagesGeneratorUtil createPhotoMessageToUser chatId - {}, messageToUser - {}, imageUrl-{}", chatId, message, imageUrl);
         SendPhoto sendPhoto = new SendPhoto();
-        try {
-            if (isDatabaseEntity) {
-                sendPhoto.setPhoto(getFile(imageUrl));
-            } else {
-                sendPhoto.setPhoto(imageUrl);
-            }
-        } catch (FileNotFoundException e) {
-            log.error(e.getMessage());
-        }
-
+        sendPhoto.setPhoto(imageUrl);
         sendPhoto.setChatId(chatId);
         sendPhoto.setCaption(message);
         return sendPhoto;

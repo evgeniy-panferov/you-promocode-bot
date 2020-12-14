@@ -1,0 +1,43 @@
+DROP TABLE IF EXISTS region;
+DROP TABLE IF EXISTS coupon;
+DROP TABLE IF EXISTS campaign;
+
+create table Campaign
+(
+    id IDENTITY PRIMARY KEY,
+    name               VARCHAR(255) UNIQUE,
+    connection_status  VARCHAR(255) DEFAULT 'active'              NOT NULL,
+    is_database_entity BOOLEAN      DEFAULT TRUE                  NOT NULL,
+    image_url          VARCHAR(255) DEFAULT 'photo_not_found.jpg' NOT NULL
+);
+
+create table Region
+(
+    coupon_id INTEGER,
+    region    VARCHAR(255)
+);
+
+create table Coupon
+(
+    id IDENTITY PRIMARY KEY,
+    name               VARCHAR(255),
+    status             VARCHAR(255),
+    description        VARCHAR(255),
+    campaign_id        INTEGER,
+    discount           VARCHAR(255),
+    species            VARCHAR(255),
+    promocode          VARCHAR(255),
+    frameset_link      VARCHAR(255),
+    goto_link          VARCHAR(255),
+    short_name         VARCHAR(255),
+    date_start         TIMESTAMP,
+    date_end           TIMESTAMP,
+    image_url          VARCHAR(255) DEFAULT 'photo_not_found.jpg' NOT NULL,
+    is_database_entity BOOLEAN      DEFAULT TRUE                  NOT NULL
+);
+
+ALTER TABLE COUPON
+    ADD FOREIGN KEY (campaign_id) REFERENCES Campaign (id) ON DELETE CASCADE;
+ALTER TABLE Region
+    ADD FOREIGN KEY (coupon_id) REFERENCES Coupon (id);
+

@@ -19,6 +19,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
@@ -83,5 +85,25 @@ public class AppConfig implements WebMvcConfigurer {
         XmlConfiguration xmlConfig = new XmlConfiguration(new ClassPathResource("/cache/ehcache.xml").getURL());
         EhcacheCachingProvider provider = (EhcacheCachingProvider) Caching.getCachingProvider();
         return provider.getCacheManager(provider.getDefaultURI(), xmlConfig);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+        registry.addResourceHandler("/img/**").addResourceLocations("/img/");
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("/favicon.ico");
+        registry.addResourceHandler("/main.js").addResourceLocations("/main.js");
+        registry.addResourceHandler("/index.html").addResourceLocations("/index.html");
+        registry.addResourceHandler("/").addResourceLocations("/index.html");
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/{x:[\\w\\-]+}")
+                .setViewName("forward:/index.html");
+
+        registry.addViewController("/{x:^(?!api$).*$}/**/{y:[\\w\\-]+}")
+                .setViewName("forward:/index.html");
     }
 }

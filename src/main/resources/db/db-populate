@@ -1,23 +1,23 @@
 insert into CAMPAIGN(name, image_url)
-values ('Бич шоп', 'classpath:image/fixprice.jpg');
+values ('Фикс прайс', 'fixprice');
 insert into CAMPAIGN(name, image_url)
-values ('Бич шоп1', 'classpath:image/ozon.jpg');
+values ('Озон', 'ozon');
 insert into CAMPAIGN(name)
-values ('Бич шоп2');
+values ('шоп2');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
-values ('Скидка 100500', 'Active', 'Скидки для нищебродов', '1', '100500%', 'Action', 'Не требуется',
+values ('Скидка 100500', 'Active', 'Большие скидки', '1', '100500%', 'Action', 'Не требуется',
         'bitchshopframe.ru', 'bitchshopgoto.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
-        '2020-10-22 10:00:00', 'classpath:image/fixprice.jpg');
+        '2020-10-22 10:00:00', 'fixprice');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
-values ('Скидка1111 100500', 'Active', 'Скидки для нищебродов', '1', '100500%', 'Action', 'Не требуется',
+values ('Скидка1111 100500', 'Active', 'Большие скидки', '1', '100500%', 'Action', 'Не требуется',
         'bitchshopframe1.ru', 'bitchshopgoto1.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
-        '2020-10-22 10:00:00', 'classpath:image/fixprice.jpg');
+        '2020-10-22 10:00:00', 'fixprice');
 
 
 insert into COUPON
@@ -25,7 +25,7 @@ insert into COUPON
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
 values ('Скидка', 'Active', 'Скидки', '2', '10%', 'Action', 'Не требуется',
         'bitchframe.ru', 'bitchgoto.ru', 'Скидки', '2020-10-19 10:00:00',
-        '2020-10-22 10:00:00', 'classpath:image/ozon.jpg');
+        '2020-10-22 10:00:00', 'ozon');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,

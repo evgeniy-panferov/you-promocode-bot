@@ -8,13 +8,12 @@
 /httpRequests/
 
 .idea
-**/bot.yml
+**.yml
 out
 target
-*.iml
+**.iml
 log
-*/*.json
+**.jpg
+**.gitignore
 
-**/admitad.http
-**/admitad.yml
-**/postgres.yml
+/src/main/webapp/testrest/admitad.http

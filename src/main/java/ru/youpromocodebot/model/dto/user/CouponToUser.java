@@ -89,8 +89,4 @@ public class CouponToUser extends BaseEntity {
     public String getGotoLink() {
         return gotoLink == null ? "" : gotoLink;
     }
-
-    public Boolean isDatabaseEntity() {
-        return isDatabaseEntity;
-    }
 }
