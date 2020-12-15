@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static ru.youpomocode.TestData.PROGRAMS_TO_USER_FROM_DB;
 
 @ContextConfiguration(classes = {AppConfig.class, TestDataBaseConfig.class})
-@Sql(scripts = {"classpath:db/db-init", "classpath:db/db-populate"}, config = @SqlConfig(dataSource = "dataSource",
+@Sql(scripts = {"classpath:db/test-db-init", "classpath:db/test-db-populate"}, config = @SqlConfig(dataSource = "dataSource",
         transactionManager = "transactionManager", encoding = "UTF-8"))
 class PartnershipProgramRepositoryTest extends AbstractTest {
 
@@ -27,7 +27,6 @@ class PartnershipProgramRepositoryTest extends AbstractTest {
     @Test
     void findAll() {
         List<ProgramToUser> all = partnershipsProgramsDao.findAll();
-        all.forEach(System.out::println);
         assertThat(all, containsInAnyOrder(PROGRAMS_TO_USER_FROM_DB.toArray()));
     }
 }

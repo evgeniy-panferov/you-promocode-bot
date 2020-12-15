@@ -1,43 +1,43 @@
 insert into CAMPAIGN(name, image_url)
-values ('Бич шоп', 'fixprice');
+values ('Фикс прайс', 'fixprice');
 insert into CAMPAIGN(name, image_url)
-values ('Бич шоп1', 'ozon');
+values ('Озон', 'ozon');
 insert into CAMPAIGN(name)
-values ('Бич шоп2');
+values ('Магазин');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
-values ('Скидка 100500', 'Active', 'Скидки для нищебродов', '0', '100500%', 'Action', 'Не требуется',
-        'bitchshopframe.ru', 'bitchshopgoto.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
+values ('Скидка 100500', 'Active', 'Скидки Фикс прайс', '0', '100500%', 'Action', 'Не требуется',
+        'fixprice.ru', 'fixprice.ru', 'Скидки Фикс прайс', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00', 'fixprice');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
-values ('Скидка1111 100500', 'Active', 'Скидки для нищебродов', '0', '100500%', 'Action', 'Не требуется',
-        'bitchshopframe1.ru', 'bitchshopgoto1.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
+values ('Скидка1111 100500', 'Active', 'Скидки Фикс прайс', '0', '100500%', 'Action', 'Не требуется',
+        'fixprice.ru', 'fixprice.ru', 'Скидки Фикс прайс', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00', 'fixprice');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
 values ('Скидка', 'Active', 'Скидки', '1', '10%', 'Action', 'Не требуется',
-        'bitchframe.ru', 'bitchgoto.ru', 'Скидки', '2020-10-19 10:00:00',
+        'ozon.ru', 'ozon.ru', 'Скидки', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00', 'ozon');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end)
 values ('Скидка11111', 'Active', 'Скидки', '1', '10%', 'Action', 'Не требуется',
-        'bitchframe.ru', 'bitchgoto.ru', 'Скидки', '2020-10-19 10:00:00',
+        'ozon.ru', 'ozon.ru', 'Скидки', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00');
 
+insert into REGION(COUPON_ID, REGION)
+values (0, 'RU');
 insert into REGION(COUPON_ID, REGION)
 values (1, 'RU');
 insert into REGION(COUPON_ID, REGION)
 values (2, 'RU');
 insert into REGION(COUPON_ID, REGION)
 values (3, 'RU');
-insert into REGION(COUPON_ID, REGION)
-values (4, 'RU');

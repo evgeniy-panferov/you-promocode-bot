@@ -38,7 +38,7 @@ public class TestDataBaseConfig {
     public DataSource dataSource() {
         org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
         dataSource.setUrl(url);
-        dataSource.setDriverClassName("org.hsqldb.yml.jdbcDriver");
+        dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         return dataSource;

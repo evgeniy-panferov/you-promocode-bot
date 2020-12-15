@@ -29,13 +29,14 @@ public class CouponsApi implements CouponDao {
     @Value("${limit}")
     private String limit;
 
+    private static final String COUPONS_URL_ALL = "https://api.admitad.com/coupons/";
     private static final String COUPONS_URL = "https://api.admitad.com/coupons/website/{0}/";
 
     private final AdmitadConnection admitadConnection;
 
     public Coupons findAll() {
         log.info("CouponsApi getCoupons");
-        return admitadConnection.getEntity(COUPONS_URL, HttpMethod.GET, Coupons.class);
+        return admitadConnection.getEntity(COUPONS_URL_ALL, HttpMethod.GET, Coupons.class);
     }
 
     public List<CouponToUser> getForPartnershipsProgram(String id) {

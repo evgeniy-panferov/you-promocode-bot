@@ -27,6 +27,5 @@ class CouponClientTest extends AbstractTest {
     void getForPartnerShipsProgram() {
         List<CouponToUser> coupons = couponsApi.getForPartnershipsProgram(String.valueOf(3081));
         assertThat(coupons, not(empty()));
-        assertThat(coupons.get(0).getName(), equalTo("Hoff"));
     }
 }

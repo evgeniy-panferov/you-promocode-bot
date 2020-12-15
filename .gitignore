@@ -16,4 +16,4 @@ log
 **.jpg
 **.gitignore
 
-/src/main/webapp/testrest/admitad.http
+/src/main/webapp/admitad.http
