@@ -1,8 +1,6 @@
-package ru.youpomocode.config;
+package ru.youpromocodebot.config;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
-import org.ehcache.jsr107.EhcacheCachingProvider;
-import org.hibernate.cache.jcache.ConfigSettings;
 import org.hibernate.cache.jcache.internal.JCacheRegionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +55,7 @@ public class TestDataBaseConfig {
         mapSetting.put(AvailableSettings.SHOW_SQL, true);
         mapSetting.put(AvailableSettings.JPA_PROXY_COMPLIANCE, false);
         mapSetting.put(AvailableSettings.CACHE_REGION_FACTORY, new JCacheRegionFactory());
-        mapSetting.put(ConfigSettings.PROVIDER, new EhcacheCachingProvider());
+        mapSetting.put("hibernate.javax.cache.provider", "org.ehcache.jsr107.EhcacheCachingProvider");
         mapSetting.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, false);
         mapSetting.put(AvailableSettings.USE_QUERY_CACHE, false);
         mapSetting.put("javax.persistence.validation.group.pre-persist", "javax.validation.groups.Default");

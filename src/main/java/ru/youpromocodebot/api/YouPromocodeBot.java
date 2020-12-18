@@ -3,9 +3,9 @@ package ru.youpromocodebot.api;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -14,21 +14,20 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-@Slf4j
 @Setter
 @Getter
 @Component
 @RequiredArgsConstructor
-@PropertySource("classpath:properties/bot.yml")
 public class YouPromocodeBot extends TelegramWebhookBot {
-    @Value("${name}")
+
+    @Value("${bot.name}")
     private String name;
-    @Value("${token}")
-    private String token;
-    @Value("${path}")
+
+    @Value("${bot.path}")
     private String path;
 
     private final TelegramView telegramView;
+    private static final Logger log = LoggerFactory.getLogger(YouPromocodeBot.class);
 
     @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
@@ -60,7 +59,7 @@ public class YouPromocodeBot extends TelegramWebhookBot {
 
     @Override
     public String getBotToken() {
-        return token;
+        return System.getenv("TOKEN");
     }
 
     @Override

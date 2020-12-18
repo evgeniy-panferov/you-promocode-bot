@@ -1,15 +1,10 @@
-package ru.youpomocode;
+package ru.youpromocodebot;
 
 
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.transaction.annotation.Transactional;
-import ru.youpomocode.config.TestDataBaseConfig;
-import ru.youpromocodebot.config.AppConfig;
 import ru.youpromocodebot.dao.CouponDaoImpl;
 import ru.youpromocodebot.model.Coupon;
 import ru.youpromocodebot.model.dto.admitad.Coupons;
@@ -17,13 +12,9 @@ import ru.youpromocodebot.model.dto.admitad.Coupons;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
-import static ru.youpomocode.TestData.COUPONS_DB;
-import static ru.youpomocode.TestData.getNewCouponDbEntity;
+import static ru.youpromocodebot.TestData.COUPONS_DB;
+import static ru.youpromocodebot.TestData.getNewCouponDbEntity;
 
-
-@ContextConfiguration(classes = {AppConfig.class, TestDataBaseConfig.class})
-@Sql(scripts = {"classpath:db/test-db-init", "classpath:db/test-db-populate"}, config = @SqlConfig(dataSource = "dataSource",
-        transactionManager = "transactionManager", encoding = "UTF-8"))
 class CouponRepositoryTest extends AbstractTest {
 
     @Autowired

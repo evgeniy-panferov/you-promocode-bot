@@ -1,7 +1,8 @@
 package ru.youpromocodebot.api.handlers;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -12,12 +13,13 @@ import java.util.Objects;
 
 @Component
 @AllArgsConstructor
-@Slf4j
 public class CommandHandlerComposite implements CommandHandler {
 
     private final List<CommandHandler> commandHandlerList;
 
     private final ErrorHandler errorHandler;
+
+    private static final Logger log = LoggerFactory.getLogger(CommandHandlerComposite.class);
 
     public SendMessage checkUpdate(Update update) {
         log.info("CommandHandlerComposite resolve update - {}", update);

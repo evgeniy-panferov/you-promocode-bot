@@ -23,10 +23,7 @@ public class CouponsApi implements CouponDao {
 
     private static final Logger log = LoggerFactory.getLogger(CouponsApi.class);
 
-    @Value("${websiteId}")
-    private String websiteId;
-
-    @Value("${limit}")
+    @Value("${admitad.limit}")
     private String limit;
 
     private static final String COUPONS_URL_ALL = "https://api.admitad.com/coupons/";
@@ -44,7 +41,7 @@ public class CouponsApi implements CouponDao {
         MultiValueMap<String, String> query = new LinkedMultiValueMap<>();
         query.add("campaign", id);
         query.add("limit", limit);
-        String formatUrl = MessageFormat.format(COUPONS_URL, websiteId);
+        String formatUrl = MessageFormat.format(COUPONS_URL, System.getenv("WEBSITE_ID"));
         return convertCouponToDto(admitadConnection.getEntity(formatUrl, HttpMethod.GET, Coupons.class, query));
     }
 

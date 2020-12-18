@@ -1,7 +1,8 @@
 package ru.youpromocodebot.api.handlers;
 
 import com.vdurmont.emoji.EmojiParser;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,7 +15,6 @@ import ru.youpromocodebot.service.PartnershipsProgramsService;
 
 import java.util.Collections;
 
-@Slf4j
 @Component
 public class PartnershipsProgramCommandHandler implements CommandHandler {
 
@@ -22,6 +22,7 @@ public class PartnershipsProgramCommandHandler implements CommandHandler {
     private final MessagesGenerator messagesGenerator;
     private final YouPromocodeBot youPromocodeBot;
     private final MessageService messageService;
+    private static final Logger log = LoggerFactory.getLogger(PartnershipsProgramCommandHandler.class);
 
     public PartnershipsProgramCommandHandler(PartnershipsProgramsService partnershipsProgramsService,
                                              MessagesGenerator messagesGenerator, @Lazy YouPromocodeBot youPromocodeBot,
@@ -37,7 +38,7 @@ public class PartnershipsProgramCommandHandler implements CommandHandler {
         String command = text[0];
 
         if (command.equalsIgnoreCase(MainCommand.PARTNERSHIPS_LIST.getCommand())) {
-            youPromocodeBot.sendMessage(new SendMessage(chatId, EmojiParser.parseToUnicode(":stopwatch:") +"Секунду, данные загружаются"));
+            youPromocodeBot.sendMessage(new SendMessage(chatId, EmojiParser.parseToUnicode(":stopwatch:") + "Секунду, данные загружаются"));
             partnershipsProgramsService.getProgramsFromSites()
                     .stream()
                     .filter(programToUser -> programToUser.getConnectionStatus().equalsIgnoreCase("active"))

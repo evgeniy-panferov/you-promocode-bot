@@ -13,7 +13,7 @@ public class MessageService {
     private final MessageSource messageSource;
     private final Locale locale;
 
-    public MessageService(MessageSource messageSource, @Value("${lang}") String lang) {
+    public MessageService(MessageSource messageSource, @Value("${message.lang}") String lang) {
         this.messageSource = messageSource;
         this.locale = Locale.forLanguageTag(lang);
     }

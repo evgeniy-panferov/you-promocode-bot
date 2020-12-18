@@ -3,43 +3,49 @@ package ru.youpromocodebot.config;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.hibernate.cache.jcache.internal.JCacheRegionFactory;
 import org.hibernate.cfg.AvailableSettings;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.persistence.EntityManagerFactory;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Profile("localhost")
+@Profile("heroku")
 @Configuration
 @EnableJpaRepositories("ru.youpromocodebot.dao")
-@PropertySource("classpath:properties/application.properties")
-public class DataBaseConfig {
-
-    @Value("${local.database.url}")
-    private String url;
-
-    @Value("${local.database.user}")
-    private String username;
-
-    @Value("${local.database.password}")
-    private String password;
+public class HerokuDataBaseConfig{
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws URISyntaxException {
+
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
         org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
-        dataSource.setUrl(url);
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl(dbUrl);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setValidationQuery("SELECT 1");
+        dataSource.setMaxActive(10);
+        dataSource.setMinIdle(2);
+        dataSource.setMaxWait(20000);
+        dataSource.setInitialSize(2);
+        dataSource.setMaxIdle(5);
+        dataSource.setTestOnBorrow(true);
+        dataSource.setRemoveAbandoned(true);
+        dataSource.setTestOnConnect(true);
+        dataSource.setTestWhileIdle(true);
         return dataSource;
     }
 
@@ -74,3 +80,4 @@ public class DataBaseConfig {
         return new JpaTransactionManager();
     }
 }
+

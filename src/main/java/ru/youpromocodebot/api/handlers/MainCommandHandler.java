@@ -1,7 +1,8 @@
 package ru.youpromocodebot.api.handlers;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.youpromocodebot.api.MessageService;
@@ -13,12 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@Slf4j
 @AllArgsConstructor
 public class MainCommandHandler implements CommandHandler {
 
     private final MessagesGenerator messagesGenerator;
     private final MessageService messageService;
+
+    private static final Logger log = LoggerFactory.getLogger(MainCommandHandler.class);
 
     public SendMessage resolveMatchCommand(Long chatId, String... text) {
         log.info("MainCommandHandler findMatchCommand - text {} , chatId {}", text, chatId);

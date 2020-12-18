@@ -1,7 +1,8 @@
 package ru.youpromocodebot.service;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.youpromocodebot.client.PartnershipsProgramsApi;
@@ -16,13 +17,13 @@ import static ru.youpromocodebot.util.EntityToDto.convertProgramToDtoWeb;
  * Работа с партнерскими программами
  */
 
-@Slf4j
 @Service
 @AllArgsConstructor
 public class PartnershipsProgramsService {
 
     private final PartnershipsProgramsApi partnershipsProgramsApi;
     private final PartnershipsProgramsDaoImpl partnershipsProgramsDaoImpl;
+    private static final Logger log = LoggerFactory.getLogger(PartnershipsProgramsService.class);
 
     @Cacheable(value = "programsToUser")
     public List<ProgramToUser> getProgramsFromSites() {

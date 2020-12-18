@@ -1,4 +1,4 @@
-package ru.youpomocode;
+package ru.youpromocodebot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,8 @@ import ru.youpromocodebot.model.dto.user.CouponToUser;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 
 class CouponClientTest extends AbstractTest {
 

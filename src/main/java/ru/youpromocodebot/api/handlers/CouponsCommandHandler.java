@@ -1,7 +1,8 @@
 package ru.youpromocodebot.api.handlers;
 
 import com.vdurmont.emoji.EmojiParser;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,13 +18,14 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@Slf4j
 public class CouponsCommandHandler implements CommandHandler {
 
     private final CouponsService couponsService;
     private final MessagesGenerator messagesGenerator;
     private final YouPromocodeBot youPromocodeBot;
     private final MessageService messageService;
+
+    private static final Logger log = LoggerFactory.getLogger(CouponsCommandHandler.class);
 
     public CouponsCommandHandler(CouponsService couponsService, MessagesGenerator messagesGenerator,
                                  @Lazy YouPromocodeBot youPromocodeBot, MessageService messageService) {
@@ -36,7 +38,7 @@ public class CouponsCommandHandler implements CommandHandler {
     public SendMessage resolveMatchCommand(Long chatId, String... text) {
         log.info("CouponsCommandHandler findMatchCommand - text {}, chatId {}", text, chatId);
         if (text[0].equalsIgnoreCase(messageService.getMessage("reply.button.actionList"))) {
-            youPromocodeBot.sendMessage(new SendMessage(chatId, EmojiParser.parseToUnicode(":stopwatch:") +"Секунду, данные загружаются"));
+            youPromocodeBot.sendMessage(new SendMessage(chatId, EmojiParser.parseToUnicode(":stopwatch:") + "Секунду, данные загружаются"));
             List<CouponToUser> couponsToUsers = couponsService.getForPartnerShipsProgram(text[1], Boolean.parseBoolean(text[2]));
 
             couponsToUsers

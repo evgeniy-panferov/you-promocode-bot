@@ -4,15 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import org.ehcache.jsr107.EhcacheCachingProvider;
-import org.ehcache.xml.XmlConfiguration;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.jcache.JCacheCacheManager;
+import org.springframework.cache.jcache.JCacheManagerFactoryBean;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
@@ -26,14 +23,14 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import ru.youpromocodebot.api.YouPromocodeBot;
 
-import javax.cache.Caching;
 import java.io.IOException;
 
+@Profile({"heroku", "localhost", "test"})
 @EnableWebMvc
 @EnableCaching
 @Configuration
 @ComponentScan("ru.youpromocodebot")
-@PropertySource("classpath:properties/admitad.yml")
+@PropertySource("classpath:properties/application.properties")
 @EnableTransactionManagement(proxyTargetClass = true)
 public class AppConfig implements WebMvcConfigurer {
 
@@ -76,15 +73,17 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public JCacheCacheManager jCacheCacheManager() throws IOException {
-        return new JCacheCacheManager(cacheManager());
+    public CacheManager cacheManager(JCacheManagerFactoryBean cacheManagerFactoryBean) throws IOException {
+        final JCacheCacheManager jCacheCacheManager = new JCacheCacheManager();
+        jCacheCacheManager.setCacheManager(cacheManagerFactoryBean().getObject());
+        return jCacheCacheManager;
     }
 
-    @Bean(destroyMethod = "close")
-    public javax.cache.CacheManager cacheManager() throws IOException {
-        XmlConfiguration xmlConfig = new XmlConfiguration(new ClassPathResource("/cache/ehcache.xml").getURL());
-        EhcacheCachingProvider provider = (EhcacheCachingProvider) Caching.getCachingProvider();
-        return provider.getCacheManager(provider.getDefaultURI(), xmlConfig);
+    @Bean
+    public JCacheManagerFactoryBean cacheManagerFactoryBean() throws IOException {
+        JCacheManagerFactoryBean jCacheManagerFactoryBean = new JCacheManagerFactoryBean();
+        jCacheManagerFactoryBean.setCacheManagerUri(new ClassPathResource("cache/ehcache.xml").getURI());
+        return jCacheManagerFactoryBean;
     }
 
     @Override

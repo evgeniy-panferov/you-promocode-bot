@@ -1,4 +1,4 @@
-package ru.youpomocode;
+package ru.youpromocodebot;
 
 import ru.youpromocodebot.model.Campaign;
 import ru.youpromocodebot.model.Coupon;

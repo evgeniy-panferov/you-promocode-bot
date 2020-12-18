@@ -22,13 +22,7 @@ public class AdmitadAuthorization {
 
     private static final Logger log = LoggerFactory.getLogger(AdmitadAuthorization.class);
 
-    @Value("${base64Header}")
-    private String base64Header;
-
-    @Value("${clientId}")
-    private String clientId;
-
-    @Value("${scope}")
+    @Value("${admitad.scope}")
     private String scope;
 
     private final RestTemplate restTemplate;
@@ -40,7 +34,7 @@ public class AdmitadAuthorization {
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "client_credentials");
-        map.add("client_id", clientId);
+        map.add("client_id", System.getenv("CLIENT_ID"));
         map.add("scope", scope);
 
         ResponseEntity<AdmitadAuth> response = restTemplate.exchange(AUTHORIZATION_URL,
@@ -50,10 +44,10 @@ public class AdmitadAuthorization {
     }
 
     private HttpHeaders getHttpHeaders() {
-        log.info("AdmitadConnectionApi getHttpHeaders");
+        log.info("AdmitadAuthorization getHttpHeaders");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        httpHeaders.setBasicAuth(base64Header);
+        httpHeaders.setBasicAuth(System.getenv("BASE_64_HEADER"));
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         return httpHeaders;
     }
