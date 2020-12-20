@@ -12,12 +12,12 @@ import java.io.IOException;
 import static org.springframework.util.ResourceUtils.getFile;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(value = "https://tg-bot-site.herokuapp.com/")
 public class ImageController {
 
     private static final Logger log = LoggerFactory.getLogger(ImageController.class);
 
-    @RequestMapping("/image/{imageName}")
+    @RequestMapping("api/image/{imageName}")
     @ResponseBody
     public HttpEntity<byte[]> getPhoto(@PathVariable String imageName) {
         log.info("ImageController getPhoto imageName - {}", imageName);

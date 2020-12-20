@@ -70,7 +70,7 @@ public class EntityToDto {
     public static List<ProgramToUser> convertProgramToDtoWeb(List<ProgramToUser> programToUsers) {
         return programToUsers.stream()
                 .map(programToUser -> {
-                    programToUser.setImageUrl("http://localhost:8080/image/" + programToUser.getImageUrl() + ".jpg");
+                    programToUser.setImageUrl("https://tg-bot-site.herokuapp.com/api/image/" + programToUser.getImageUrl() + ".jpg");
                     return programToUser;
                 }).collect(Collectors.toList());
     }
@@ -78,7 +78,7 @@ public class EntityToDto {
     public static List<CouponToUser> convertCouponsToDtoWeb(List<CouponToUser> couponToUsers) {
         return couponToUsers.stream()
                 .map(couponToUser -> {
-                    couponToUser.setImageUrl("http://localhost:8080/image/" + couponToUser.getImageUrl() + ".jpg");
+                    couponToUser.setImageUrl("https://tg-bot-site.herokuapp.com/api/image/" + couponToUser.getImageUrl() + ".jpg");
                     return couponToUser;
                 }).collect(Collectors.toList());
     }

@@ -13,7 +13,6 @@ out
 target
 **.iml
 log
-**.jpg
 **.gitignore
 
 /src/main/webapp/admitad.http

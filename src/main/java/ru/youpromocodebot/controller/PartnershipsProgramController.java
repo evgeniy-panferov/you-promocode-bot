@@ -14,7 +14,7 @@ import ru.youpromocodebot.service.PartnershipsProgramsService;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(value = "https://tg-bot-site.herokuapp.com/")
 @AllArgsConstructor
 @RequestMapping(value = PartnershipsProgramController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PartnershipsProgramController {

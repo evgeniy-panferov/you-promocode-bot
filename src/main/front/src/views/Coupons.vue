@@ -33,7 +33,7 @@
 
         computed: {
             resource: function () {
-                return this.$resource('http://localhost:8080/api/coupons{/id}')
+                return this.$resource('https://tg-bot-site.herokuapp.com/api/coupons{/id}')
             }
         },
 

@@ -1,7 +1,7 @@
-alter table Coupon
-    drop constraint if exists coupon_id_campaign_id_fk;
-alter table Coupon
-    drop constraint if exists region_coupon_id_coupon_id_fk;
+-- alter table Coupon
+--     drop constraint if exists coupon_id_campaign_id_fk;
+-- alter table Coupon
+--     drop constraint if exists region_coupon_id_coupon_id_fk;
 
 DROP TABLE IF EXISTS region;
 DROP TABLE IF EXISTS coupon;

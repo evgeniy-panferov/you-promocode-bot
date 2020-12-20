@@ -9,14 +9,14 @@ insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
 values ('Скидка 100500', 'Active', 'Большие скидки', '1', '100500%', 'Action', 'Не требуется',
-        'bitchshopframe.ru', 'bitchshopgoto.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
+        'fix-price.ru', 'https://fix-price.ru', 'Скидки', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00', 'fixprice');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
 values ('Скидка1111 100500', 'Active', 'Большие скидки', '1', '100500%', 'Action', 'Не требуется',
-        'bitchshopframe1.ru', 'bitchshopgoto1.ru', 'Скидки для нищебродов', '2020-10-19 10:00:00',
+        'https://fix-price.ru', 'https://fix-price.ru', 'Скидки', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00', 'fixprice');
 
 
@@ -24,14 +24,14 @@ insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end, image_url)
 values ('Скидка', 'Active', 'Скидки', '2', '10%', 'Action', 'Не требуется',
-        'bitchframe.ru', 'bitchgoto.ru', 'Скидки', '2020-10-19 10:00:00',
+        'ozon.ru', 'ozon.ru', 'Скидки', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00', 'ozon');
 
 insert into COUPON
 (name, status, description, campaign_id, discount, species, promocode,
  frameset_link, goto_link, short_name, date_start, date_end)
 values ('Скидка11111', 'Active', 'Скидки', '2', '10%', 'Action', 'Не требуется',
-        'bitchframe.ru', 'bitchgoto.ru', 'Скидки', '2020-10-19 10:00:00',
+        'ozon.ru', 'ozon.ru', 'Скидки', '2020-10-19 10:00:00',
         '2020-10-22 10:00:00');
 
 insert into REGION(COUPON_ID, REGION)
